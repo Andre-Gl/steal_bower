@@ -1,4 +1,4 @@
-if(steal.config().browser){
+if(steal.options.browser){
 	steal('steal/browser/test/trigger.js');
 };
 steal('jquery', function(){

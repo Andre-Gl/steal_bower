@@ -1,5 +1,8 @@
-steal("./template.ejs", './style.less',function(temp){
- 	
- 	document.body.appendChild(temp({message: "Hello World"}));
- 	window.APP_ON = true
+steal('jquery/view/ejs',
+	"//steal/build/pluginify/test/app/template.ejs").then(function($){
+ 	$.writerApp = function(){
+		this.html("//steal/build/pluginify/test/app/template.ejs",{
+			message : "Hello World"
+		})
+	}
  })

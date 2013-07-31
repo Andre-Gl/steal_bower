@@ -1,4 +1,4 @@
-steal("steal","steal/get/json.js", 
+steal("steal/get/json.js", 
 	  "steal/rhino/prompt.js", 
 	  "steal/get/dummy.js",function( steal ) {
 	
@@ -299,18 +299,16 @@ steal("steal","steal/get/json.js",
 		 */
 		fetch : function(url, path, options ){
 			// make the new folder
-			if( options.getter.init  ) {
-				options.getter.init(options);
-			}
 			
-			var raw = options.getter.raw(url, options),
+			
+			var raw = options.getter.raw(url),
 				content = readUrl(raw),
 				// only make a folder the first time we put a file in the folder
 				madeFolder = false;
 			
 			//print("\nfetching "+url+"--------\n\n")
 			
-			var urls = options.getter.ls(content, raw, url, options);
+			var urls = options.getter.ls(content, raw, url);
 			
 			//separate folders and files ...
 			pathloop:

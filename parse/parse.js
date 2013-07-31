@@ -1,6 +1,5 @@
-steal("steal/parse/tokens.js"/*,
-	  "steal/parse/regex_identifier.js"*/,
-	  function(){
+steal("steal/parse/tokens.js")
+	.then('steal/build').then(function(steal){
 
 var isArray = function( array ) {
   return Object.prototype.toString.call( array ) === "[object Array]";
@@ -35,26 +34,26 @@ like = function(a, b){
  * @parent stealjs
  * Returns an pull parser useful for walking through
  * token streams.
- *
+ * 
  *     var p = steal.parse("  steal.dev.log('fo(')  ");
- *
+ *     
  *     //parses until it finds thing(
  *     p.until( [ "thing", "(" ] );
- *
+ *     
  *     //parse until it finds the matching ) to (
  *     p.partner("(");
- *
+ *     
  * ## API
  * @constructor
  * @param {String} str
  * @return {steal.parse} an object that can be used to pull tokens.
  */
-return  function(str){
+steal.parse = function(str){
 		//print("Breaking up strs")
 		var tokens = str.tokens('=<>!+-*&|/%^', '=<>&|'),
 			tokenNum = 0,
 			lines;
-
+			
 		var moveNext = function(ignoreComments){
 			var next = tokens[tokenNum++];
 			if(next){
@@ -65,7 +64,7 @@ return  function(str){
 			}else{
 				return next;
 			}
-
+			
 		},
 		getLineNum = function(pos){
 			if(!lines){
@@ -78,27 +77,27 @@ return  function(str){
 			}
 			return line
 		}
-
+		
 		return {
 			/**
 			 * @attribute ignoreComments
-			 * A boolean you can set to ignore comments.
+			 * A boolean you can set to ignore comments.  
 			 * Comments are ignored by default.
-			 *
+			 * 
 			 *     p.ignoreComments = true
 			 */
 			ignoreComments : true,
 			/**
 			 * Moves to the next token and returns it.
-			 *
+			 * 
 			 *     var p = steal.parse("CONTENT"),
 			 *         cur
 			 *     while( cur = p.moveNext() ){
-			 *
+			 *     
 			 *     }
-			 *
+			 * 
 			 * @return {token} A token like:
-			 *
+			 * 
 			 *     {from: 22, to: 24, value: "hi", type: "string"}
 			 */
 			moveNext : function(){
@@ -106,9 +105,9 @@ return  function(str){
 			},
 			/**
 			 * Returns the next token.
-			 *
+			 * 
 			 * @return {token} A token like:
-			 *
+			 * 
 			 *     {from: 22, to: 24, value: "hi", type: "string"}
 			 */
 			next : function(){
@@ -116,9 +115,9 @@ return  function(str){
 			},
 			/**
 			 * Returns the current token.
-			 *
+			 * 
 			 * @return {token} A token like:
-			 *
+			 * 
 			 *     {from: 22, to: 24, value: "hi", type: "string"}
 			 */
 			cur : function(){
@@ -132,13 +131,13 @@ return  function(str){
 				token = token || tokens[tokenNum];
 			},
 			/**
-			 * Parses it until it finds the right partner of the
+			 * Parses it until it finds the right partner of the 
 			 * left parameter.
-			 *
+			 * 
 			 *     p.partner("(", function(token){
-			 *
+			 *       
 			 *     })
-			 *
+			 * 
 			 * @param {String} left a string like (,[,{,<
 			 * @param {Function} cb a function that gets called
 			 * with all tokens between the left and right token.
@@ -151,15 +150,14 @@ return  function(str){
 						"{" : "}",
 						"<" : ">"
 					}[left],
-						count = 1,
-						token,
-						last,
+						count = 1, 
+						token, 
+						last, 
 						prev;
 
 				if(this.cur().value != left){
 					this.until(left);
 				}
-
 				while(token = this.moveNext()){
 					if(token.type == 'operator'){
 						if(token.value === left){
@@ -172,7 +170,6 @@ return  function(str){
 								return token;
 							}
 						}else if(token.value === "/"){
-						// }else if(token.value === "/" && guessNextIsRegexp(token.value))
 							print("YOU SHOULD NOT BE HERE")
 							this.comment();
 						}
@@ -184,15 +181,15 @@ return  function(str){
 			},
 			/**
 			 * Parses until it finds something you are looking for.
-			 *
+			 * 
 			 * until("function",")") -> looks for function or  )
 			 * until(["foo",".","bar"]) -> looks for foo.bar
-			 *
+			 * 
 			 * @return {Array} an array of tokens of the matches.  The last item in the array
 			 * is the last part matched.
 			 */
 			until: function(){
-				var token,
+				var token, 
 					//where in each Pattern we've got a match
 					patternMatchPosition = [],
 					// an array of pattern arrays ...
@@ -206,7 +203,7 @@ return  function(str){
 						return res;
 					},
 					callback = function(){};
-
+					
 				for(var i =0; i < arguments.length;i++){
 					patternMatchPosition[i] =[];
 					if(isArray(arguments[i])){

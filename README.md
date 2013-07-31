@@ -1,10 +1,12 @@
 @page stealjs StealJS
-@parent index 2
+@parent index 1
 
 StealJS is a collection of command line and JavaScript client utilities
-that make building, packaging, and sharing 
-JavaScript applications easy.  Lets see what it can do:
+that make building, packaging, and sharing JavaScript applications easy.
 
+## Features
+
+Behold StealJS's goodies:
 
 ### Dependency Management ([steal])
 
@@ -15,18 +17,18 @@ JavaScript applications easy.  Lets see what it can do:
 
     steal('widgets/tabs.js',
           './style.css', function(){
-      $('#tabs ).tabs();
+      $('#tabs ).tabs();     
     });
 
 ### JS/CSS Concatenation and Compression ([steal.build])
 
-The [steal.build] plugin combines an application's files into a single minified
+The [steal.build] plugin combines an application's files into a single minified 
 JavaScript and CSS file extremely easy.  Features:
 
   - Configurable compressors (defaults to Google Closure).
   - Compresses Less and CoffeeScript.
   - Pre-processes and compresses client-side templates (templates don't have to be parsed).
-
+  
 @codestart text
 js steal/buildjs mypage.html
 @codeend
@@ -43,7 +45,7 @@ js steal/buildjs mypage.html
 
   - Pre-packaged JMVC style code generators.
   - Easily author custom generators.
-
+  
 @codestart text
 js jquery/generate/app cookbook
 @codeend
@@ -52,7 +54,7 @@ js jquery/generate/app cookbook
 
 [steal.get] is a simple JavaScript version of [http://rubygems.org/ ruby gems] featuring:
 
- - Download and install plugins from remote SVN or GIT repositories.
+ - Download and install plugins from remote SVN or GIT repositories.  
  - Installs dependencies.
 
 @codestart text
@@ -61,7 +63,7 @@ js steal/getjs http://github.com/jupiterjs/mxui/
 
 ### Code Cleaner ([steal.clean])
 
-[steal.clean] cleans your code and checks it against JSLint.
+[steal.clean] cleans your code and checks it against JSLint. 
 
 @codestart text
 js steal/clean path/to/page.html
@@ -73,4 +75,4 @@ js steal/clean path/to/page.html
 
 @codestart text
 js steal/htmljs http://localhost/cookbook.html#recipes
-@codeend
+@codeend   

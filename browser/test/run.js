@@ -1,6 +1,6 @@
 load('steal/rhino/rhino.js')
 
-steal('steal', 'steal/test/test.js', function(s) {
+steal('steal/test/test.js', function(s) {
 //	STEALPRINT = false;
 	s.test.module("steal/browser")
 	

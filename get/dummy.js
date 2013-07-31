@@ -1,5 +1,5 @@
 // a dummy version of steal that can run on a file and extract data from it ...
-steal('steal',function(s){
+steal(function(s){
 	
 	s.dummy = function(code){
 		

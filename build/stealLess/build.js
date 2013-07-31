@@ -19,12 +19,13 @@ steal(
 
 		var opener = s.build.open('steal/rhino/blank.html', {
 				startFile: plugin
-		}, function(opener) {
+		}, function(opener){
 			s.print( "stealLess: Launching compilers for " + plugin);
 			//build scripts
 			s.build.builders.scripts(opener, opts);
 			//build styles
 			s.build.builders.styles(opener, opts);
+
 		}, true);
 	};
 });

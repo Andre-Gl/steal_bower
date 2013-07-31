@@ -1,16 +1,11 @@
 load('steal/rhino/rhino.js')
 load('steal/rhino/test.js');
 
-steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhinoSteal, post, base64){
+steal('steal/get',function(rhinoSteal){
 	var _S = steal.test;
-	var G = steal.get;
 	
-	_S.test("base64", function(t){
-		base64.encode("hello world") ;
-	});
-
+	_S
 	
-
 	_S.module("steal/get")
 	STEALPRINT = false;
 	
@@ -56,8 +51,7 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 //	});
 	
 	
-	
-
+	var G = steal.get;
 	
 	
 	
@@ -73,34 +67,24 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 		t.equals(info.resource, "/", "Right resource");
 	});
 	
-	_S.test("fetch with git, ignore all", function(t){
-		
-		G.fetch("https://github.com/jupiterjs/funcunit",
-			"steal/get/test/",{
-				getter : G.git,
-				ignore : [/.*[^\/]$/]
-			});
-		
-	});
-	
 	_S.test("github.raw", function(t){
 		// a file
 		var raw = G.git.raw("https://github.com/jupiterjs/srchr/tree/master/srchr/disabler/disabler.html");
-		t.equals(raw, "https://raw.github.com/jupiterjs/srchr/master/srchr/disabler/disabler.html", "file");
+		t.equals(raw, "https://github.com/jupiterjs/srchr/raw/master/srchr/disabler/disabler.html", "file");
 		
 		raw = G.git.raw("https://github.com/secondstory/secondstoryjs-plugins/blob/master/jScrollPane/jScrollPane.js");
-		t.equals(raw, "https://raw.github.com/secondstory/secondstoryjs-plugins/master/jScrollPane/jScrollPane.js", "file");
-
+		t.equals(raw, "https://github.com/secondstory/secondstoryjs-plugins/raw/master/jScrollPane/jScrollPane.js", "file");
+		
 		// folders
 		raw = G.git.raw("https://github.com/secondstory/secondstoryjs-plugins/tree/master/jScrollPane/")
-		t.equals(raw.indexOf("https://api.github.com/repos/secondstory/secondstoryjs-plugins/git/trees/"), 0, "folder");
+		t.equals(raw,"https://github.com/secondstory/secondstoryjs-plugins/tree/master/jScrollPane/?raw=true","folder")
 		
 		// root
 		raw = G.git.raw("https://github.com/jupiterjs/funcunit")
-		t.equals(raw.indexOf("https://api.github.com/repos/jupiterjs/funcunit/git/trees/"), 0, "root");
+		t.equals(raw.indexOf("https://github.com/api/v2/json/tree/show/jupiterjs/funcunit/"), 0, "root");
 		
 		raw = G.git.raw("https://github.com/jupiterjs/funcunit/tree/v3.2.1")
-		t.equals(raw.indexOf("https://api.github.com/repos/jupiterjs/funcunit/git/trees/"), 0, "root with tag");
+		t.equals(raw.indexOf("https://github.com/api/v2/json/tree/show/jupiterjs/funcunit/"), 0, "root");
 		
 	});
 	
@@ -117,10 +101,11 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 	});
 	
 	_S.test("fetcher.download", function(t){
-		var url = "https://github.com/jupiterjs/funcunit/blob/master/dependencies.json",
+		var raw = G.git.raw("https://github.com/jupiterjs/funcunit/blob/master/dependencies.json"),
 			out = "steal/get/test/out.js";
 		
-		G.download(url,out,{getter: G.git});
+		
+		G.download(raw,out,{getter: G.git});
 		
 		var stuff = readFile(out);
 		t.ok(stuff, "there is stuff");
@@ -128,9 +113,17 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 		new steal.File(out).remove();
 	});
 	
+	_S.test("fetch with git, ignore all", function(t){
+		
+		G.fetch("https://github.com/jupiterjs/funcunit",
+			"steal/get/test/",{
+				getter : G.git,
+				ignore : [/.*[^\/]$/]
+			});
+		
+	});
 	
-	
-	/*_S.test("fetch with basic, ignore all", function(t){
+	_S.test("fetch with basic, ignore all", function(t){
 		
 		G.fetch("http://jabbify.googlecode.com/svn/trunk/jabbify/apps/",
 			"steal/get/test/",{
@@ -138,7 +131,7 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 				ignore : [/.*[^\/]$/]
 			});
 		
-	});*/
+	});
 	
 	
 	_S.test("fetch dependencies", function(t){
@@ -166,3 +159,4 @@ steal('steal','steal/get/post.js','steal/get/base64.js','steal/get',function(rhi
 	});
 	
 });
+

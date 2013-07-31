@@ -17,9 +17,7 @@ steal.extend(steal.browser.server.prototype, {
 			var killed = false;
 			try {
 				var sock = this.serverSocket.accept();
-			}catch(e){
-				// print('ERROR!'+e.message)
-			}
+			}catch(e){}
 			if (!this.stopServer) {
 				var copy = sock;
 				sock = null;
@@ -41,7 +39,7 @@ steal.extend(steal.browser.server.prototype, {
 				"Content-Type: text/html\r\n"+
 				"Content-Length: " + res.length + "\r\n"+
 				"Connection: close\r\n\r\n";
-		// print('RESPONSE: '+res)
+//		print('RESPONSE: '+res)
 		outstream.writeBytes(headers + res);
 		outstream.close();
 	},
@@ -71,6 +69,7 @@ steal.extend(steal.browser.server.prototype, {
 			if (self.stopServer) {
 				return;
 			}
+			
 			var bufr = new java.io.BufferedReader(new java.io.InputStreamReader(sock.getInputStream())),
 				getData = self.getRequestData(bufr);
 			// spawn a new thread for this, because it might take forever

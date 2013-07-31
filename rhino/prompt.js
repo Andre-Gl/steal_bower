@@ -1,4 +1,4 @@
-steal(function() {
+steal(function( steal ) {
 	steal.prompt = function( question ) {
 		java.lang.System.out.print(question);
 		var br = new java.io.BufferedReader(new java.io.InputStreamReader(java.lang.System["in"]));
@@ -9,10 +9,6 @@ steal(function() {
 			System.out.println("IO error trying to read");
 		}
 		return response;
-	}
-	steal.promptPassword = function(question){
-		var password = java.lang.System.console().readPassword(question)
-		return new java.lang.String(password)+"";
 	}
 	/**
 	 * 

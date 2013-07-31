@@ -6,9 +6,8 @@ var queue = [],
 	s = steal,
 	getDocType  = function(url){
 		var content;
-		print(url);
-		if( !s.URI(url).domain() ){
-			content = readFile(s.URI(url).path);
+		if(s.File(url).domain() === null){
+			content = readFile(s.File(url).clean());
 		} else {
 			content = readUrl(url);
 		}
@@ -65,7 +64,6 @@ steal.html.crawl = function(url, opts){
 	s.File(opts.out).mkdirs();
 	
 	s.html.load(url, browserType, function(hash){
-		
 		var docType = getDocType(url),
 			data = s.html.crawl.getPageData(this),
 			total = docType+"\n<html lang='en'>\n"+data.html+"\n</html>";
